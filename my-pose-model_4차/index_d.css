@@ -1,0 +1,116 @@
+/* Android - 2 */
+
+body{
+  position: relative;
+  width: 360px;
+  height: 640px;
+  margin: 0px;
+
+  background: #FFFFFF;
+}
+
+
+/* Group 2 */
+
+/* Rectangle 2 */
+
+.main{
+  width: 360px;
+  height: 50px;
+
+  background-color: #9395D3;
+
+}
+
+/* 쭉쭉이 */
+
+h5{
+
+  width: 360px;
+  height: 54px;
+  left: 0px;
+  top: 1px;
+  padding-left: 36%;
+  margin: 0px;
+
+
+  font-style: bold;
+  font-size: 30px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+
+  color: #ffffff;
+}
+
+
+/* Group 3 */
+
+#camera{
+
+  width: 30px;
+  height: 57px;
+  left: 0px;
+  top: 583px;
+}
+
+/* button1 */
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #9395D3;
+  margin-left: 450%;
+  margin-top: 20px;
+  width: 60px;
+  height: 40px;
+
+}
+
+.button1:hover {
+  background-color: #9395D3;
+  color: white;
+}
+
+/* canvas */
+#canvas{
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+
+/* Rectangle 3 */
+
+.end{
+
+  width: 360px;
+  height: 60px;
+  left: 0px;
+  top: 583px;
+  margin-top: 100%;
+
+  background-color: #9395D3;
+}
+
+
+/* GOOD! */
+#label-container {
+
+  width: 360px;
+  height: 57px;
+  left: 0px;
+  top: 583px;
+
+
+  font-style: normal;
+  font-weight: 300;
+  font-size: 30px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #F2FF49;
+}
