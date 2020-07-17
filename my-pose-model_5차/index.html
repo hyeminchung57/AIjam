@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <!--
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+-->
+  <link rel="stylesheet" href="index_d.css">
+
+  <title>sample coding</title>
+</head>
+
+<body>
+  <div class="main">
+    <h5>쭉쭉이</h5>
+  </div>
+
+
+  <div id="camera">
+    <button class="button1" type="button" onclick="init()">Start</button>
+    <canvas id="canvas"></canvas>
+  </div>
+  <div class="end">
+      <div id="label-container"></div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "./my_model/";
+    let model, webcam, ctx, labelContainer, maxPredictions;
+
+    async function init() {
+      const modelURL = URL + "model.json";
+      const metadataURL = URL + "metadata.json";
+
+      // load the model and metadata
+      // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+      // Note: the pose library adds a tmPose object to your window (window.tmPose)
+      model = await tmPose.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+
+      // Convenience function to setup a webcam
+      const size = 300;
+      const flip = true; // whether to flip the webcam
+      webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+      await webcam.setup(); // request access to the webcam
+      await webcam.play();
+      window.requestAnimationFrame(loop);
+
+      // append/get elements to the DOM
+      const canvas = document.getElementById("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      ctx = canvas.getContext("2d");
+      labelContainer = document.getElementById("label-container");
+      for (let i = 0; i < maxPredictions; i++) { // and class labels
+        labelContainer.appendChild(document.createElement("div"));
+      }
+    }
+
+    async function loop(timestamp) {
+      webcam.update(); // update the webcam frame
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
+
+
+    var status = "bad";
+    var audio1 = new Audio("bad.mp3");
+    var audio2 = new Audio("vol8.mp3");
+//licence: vol8) CC0 1.0 Universal made by DayDreamSound https://youtu.be/kfnh9QAfDgA
+
+    var loadStatus = 0;
+    $(window).on("load", function() {
+      setTimeout(function() {
+        loadStatus = 1
+      }, 2000);
+    })
+
+    function playAudio1() {
+      if (loadStatus == 1) {
+        audio1.pause();
+        audio1.currentTime = 0;
+        //audio1.play();
+      }
+    }
+
+    function playAudio2() {
+      if (loadStatus == 1) {
+        audio2.pause();
+        audio2.currentTime = 0;
+      }
+    }
+
+    function aplayer(){
+      audio1.play();
+    }
+
+    var myTimer = setTimeout(aplayer, 20000);
+
+    var bad_count = 0;
+
+    setTimeout(aplayer, 150000);
+
+    async function predict() {
+      // Prediction #1: run input through posenet
+      // estimatePose can take in an image, video or canvas html element
+      const {
+        pose,
+        posenetOutput
+      } = await model.estimatePose(webcam.canvas);
+      // Prediction 2: run input through teachable machine classification model
+      const prediction = await model.predict(posenetOutput);
+
+      if (prediction[0].probability.toFixed(2) == 1.00) {
+        if (status == 'good' || status == 'etc') {
+          bad_count += 1;
+          //setTimeout(aplayer, 20000);
+        }else if (status =='bad') {
+          bad_count += 2;
+        }
+        status = 'bad';
+
+      } else if (prediction[1].probability.toFixed(2) >= 1.00) {
+          if (status == 'bad' || status == 'etc') {
+            //clearTimeout(myTimer);
+            audio2.play();
+            bad_count = 0;
+        }
+          status = 'good';
+      } else {
+          status = 'etc';
+      }
+      // else if (prediction[2].probability.toFixed(2) == 1.00) {
+      //    status = 'etc' }
+
+
+      if (bad_count >= 300){
+        playAudio1();
+        audio1.play();
+        bad_count = 0;
+      }
+
+
+
+      prediction.sort((a, b) => parseFloat(b.probability) - parseFloat(a.probability));
+      const classPrediction =prediction[0].className
+      labelContainer.childNodes[0].innerHTML = classPrediction;
+
+      // finally draw the poses
+      drawPose(pose);
+    }
+
+    function drawPose(pose) {
+      if (webcam.canvas) {
+        ctx.drawImage(webcam.canvas, 0, 0);
+        // draw the keypoints and skeleton
+        if (pose) {
+          const minPartConfidence = 0.5;
+          tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+          tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
