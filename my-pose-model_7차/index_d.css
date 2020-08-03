@@ -1,0 +1,131 @@
+/* Android - 2 */
+
+body{
+  position: relative;
+  width: 360px;
+  height: 640px;
+  margin: 0px;
+
+  background: #FFFFFF;
+}
+
+
+/* Group 2 */
+
+/* Rectangle 2 */
+
+.main{
+  width: 360px;
+  height: 50px;
+
+  background-color: #9395D3;
+
+}
+
+/* 쭉쭉이 */
+
+#title {
+   background: url(title.png);
+   margin: 0px;
+   margin-left: 110px;
+   padding-top: 40%;
+   width: 110px;
+   height: 50px;
+   background-position: center center;
+   color: #9395D3;
+}
+
+/* Group 3 */
+
+#camera{
+
+  width: 300px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  left: 0px;
+  top: 583px;
+}
+
+
+/* button1 */
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #9395D3;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  width: 60px;
+  height: 40px;
+}
+
+.button1:hover {
+  background-color: #9395D3;
+  color: white;
+}
+
+/*button2 */
+
+.button2 {
+  background-color: #9395D3;
+  color: black;
+  border: 2px solid #9395D3;
+  margin-left: 30px;
+  margin-right: auto;
+  margin-top: 20px;
+  width: 60px;
+  height: 40px;
+  position: absolute;
+}
+
+
+.button2:hover {
+  background-color: white;
+  color: black;
+}
+
+#buttons{
+  display: inline-block;
+  width: 150px;
+  height: 57px;
+  left: 0px;
+  top: 583px;
+  margin-left: 105px;
+  margin-right: 105px;
+}
+
+
+/* canvas */
+#canvas{
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  height: 300px;
+}
+
+/* ponts */
+#point{
+  width: 30px;
+  height: 20px;
+}
+
+/* Rectangle 3 */
+
+.end{
+
+  width: 360px;
+  height: 60px;
+  left: 0px;
+  top: 583px;
+
+  background-color: #9395D3;
+}
+
+
+/* GOOD! */
+#resultmessege{
+  margin-left: 50px;
+}
